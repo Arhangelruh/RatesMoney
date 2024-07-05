@@ -1,0 +1,21 @@
+.link-button {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    margin-top: 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #88c437;
+    color:white
+}
+
+.link-button:hover{
+    background-color:lightcoral;
+}
+
+.settings-button {
+    display: flex;
+    align-items: center;
+}

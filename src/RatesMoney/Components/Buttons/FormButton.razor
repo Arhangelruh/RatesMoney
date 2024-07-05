@@ -1,0 +1,9 @@
+<button class="main-button" @onclick="OnClickCallback">@ChildContent</button>
+
+@code {
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public EventCallback OnClickCallback { get; set; }
+}

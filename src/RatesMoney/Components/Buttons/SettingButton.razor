@@ -1,0 +1,17 @@
+﻿
+	<a class="link-button" href="@Href">
+		<div class="settings-button">
+		   <div >
+			    @ChildContent
+		   </div>
+	    </div>
+    </a>
+
+
+@code { 
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public string? Href { get; set; }
+}

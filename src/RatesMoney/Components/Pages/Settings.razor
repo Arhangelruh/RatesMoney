@@ -1,0 +1,23 @@
+﻿@page "/settings"
+
+<PageTitle>Settings</PageTitle>
+
+<div class="setting-wrapper">
+    <div class="button-block">
+        <SettingButton href="WorkplaceSetting">Рабочее место</SettingButton>
+        <SettingButton href="APISettings">API</SettingButton>
+        <SettingButton href="AdvertisingSetting">Реклама</SettingButton>
+    </div>
+</div>
+
+@code {
+    
+    private void SaveAPISettings(int workplace)
+    {
+        Preferences.Default.Set(PreferenceConstants.WorkplaceCode, workplace);
+    }
+    private void SaveFolderPath(int workplace)
+    {
+        Preferences.Default.Set(PreferenceConstants.WorkplaceCode, workplace);
+    }
+}
