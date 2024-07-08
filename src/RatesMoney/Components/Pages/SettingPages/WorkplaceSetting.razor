@@ -1,13 +1,14 @@
 ﻿@page "/WorkplaceSetting"
 
 
+
 <div class="text-center">
 	<div class="col-6 mx-auto w-75 mt-5">
-		<h2>Текущий код: @workplaceCode</h2>
+		<h2 class="overflow-auto">Текущий код: @workplaceCode</h2>
 		<p class="mt-2">Введите код рабочего места</p>
 		
 		<div class="w-75 mx-auto">
-            <input @bind="@workplace" @bind:event="oninput" name="workplace" id="workplace" class="w-100" type="number" />
+            <input @bind="@workplace" name="workplace" id="workplace" class="w-100" type="number" />
             <FormButton OnClickCallback="@SaveWorkplaceCode">Сохранить</FormButton>
 		</div>
 	</div>
@@ -24,9 +25,9 @@
         GetWorkplace();
     }
 
-    void SaveWorkplaceCode() {
+    private void SaveWorkplaceCode() {
         Preferences.Default.Set(PreferenceConstants.WorkplaceCode, workplace);
-
+        GetWorkplace();
     }
 
     private void GetWorkplace()
@@ -41,5 +42,5 @@
         {
             workplaceCode = "Не задан";
         }
-    }
+    }   
 }

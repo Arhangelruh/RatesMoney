@@ -1,6 +1,36 @@
 ﻿@page "/AdvertisingSetting"
-<h3>AdvertisingSetting</h3>
+@using RatesMoney.Services
+
+<EditForm Model="@settings" OnValidSubmit="Submit">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div>
+		<label>
+		  Путь к папке с контентом:	
+		</label>
+		<input id="FolderPath" @bind-value="settings.FolderPath" />
+	</div>
+	<div>
+		<label>
+			Login:
+		</label>
+		<input id="Login" @bind-value="settings.Login" />
+	</div>
+	<div>
+		<label>
+			Password:
+		</label>
+		<input id="Password" @bind-value="settings.Password" />
+	</div>
+	<FormButton type="submit">Сохранить</FormButton>
+</EditForm>
 
 @code {
+	AdvertisingSettings settings = new();
 
+	void Submit()
+	{
+		AdvertisingConfiguration configure = new();
+		configure.SaveAdvertisingSettings(settings);
+	}
 }
