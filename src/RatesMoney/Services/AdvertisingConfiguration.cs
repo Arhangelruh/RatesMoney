@@ -21,5 +21,18 @@ namespace RatesMoney.Services
 				}
 			}
 		}
+
+		public AdvertisingSettings GetAdvertisingSettings() 
+		{
+			string getFolder = Preferences.Default.Get(PreferenceConstants.AdvertisingFolder, "");
+			string getLogin = Preferences.Default.Get(PreferenceConstants.AdvertisingLogin, "");
+
+			AdvertisingSettings model = new AdvertisingSettings{
+				FolderPath = getFolder,
+			    Login = getLogin
+			};
+
+			return model;
+		}
 	}
 }

@@ -1,19 +1,27 @@
 ﻿@page "/APIsettings"
+@using System.ComponentModel.DataAnnotations
+@using RatesMoney.Models
+
 
 <div class="text-center">
 	<div class="col-6 mx-auto w-75 mt-5">
         <h2 class="overflow-auto">Путь к API: @ApiPath</h2>
-		<p class="mt-2">Введите код рабочего места</p>
-
-		<div class="w-75 mx-auto">
-            <input @bind="@ApiPath" class="w-100" type="url" />
-            <FormButton OnClickCallback="@SaveApiPath">Сохранить</FormButton>
+		<p class="mt-2">Введите Url адрес API</p>
+       
+        <EditForm Model="@Api" OnValidSubmit="SaveApiPath">
+		<div class="w-75 mx-auto">               
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                  <InputText @bind-Value=Api.ApiPath class="w-100"/>
+                <FormButton type="submit">Сохранить</FormButton>
 		</div>
+        </EditForm>
 	</div>
 </div>
 
 @code {
-    private string? ApiPath { get; set; }    
+    ApiModel Api = new();
+    private string? ApiPath { get; set; }
 
     protected override void OnInitialized()
     {
@@ -22,12 +30,17 @@
 
     private void SaveApiPath()
     {
-        Preferences.Default.Set(PreferenceConstants.APIService, ApiPath);
-        GetApiPath();
+        if (Api.ApiPath != null)
+        {
+            Preferences.Default.Set(PreferenceConstants.APIService, Api.ApiPath);
+            GetApiPath();
+        }
     }
 
     private void GetApiPath()
     {
+        
+
         string path = Preferences.Default.Get(PreferenceConstants.APIService, "");
         if (path != "")
         {

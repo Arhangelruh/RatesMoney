@@ -1,36 +1,63 @@
 ﻿@page "/AdvertisingSetting"
+@using RatesMoney.Models
 @using RatesMoney.Services
 
-<EditForm Model="@settings" OnValidSubmit="Submit">
+
+<div class="col-6 mx-auto w-75 mt-5 text-center">
+  <EditForm Model="@settings" OnValidSubmit="Submit">
 	<DataAnnotationsValidator />
-	<ValidationSummary />
-	<div>
-		<label>
-		  Путь к папке с контентом:	
-		</label>
-		<input id="FolderPath" @bind-value="settings.FolderPath" />
-	</div>
-	<div>
+		<div class="flex-column d-flex">
+			
+				<label>
+					Путь к папке с контентом:
+				</label>
+		<InputText id="FolderPath" @bind-Value="settings.FolderPath" />
+			<ValidationMessage For="@(() => settings.FolderPath)" />
+			<p class="text-primary mt-2">Текущий путь: @CurrentFolder </p>
+		
+		</div>
+		<div class="flex-column d-flex mt-3">
 		<label>
 			Login:
 		</label>
-		<input id="Login" @bind-value="settings.Login" />
+		
+		<InputText id="Login" @bind-Value="settings.Login" />
+			<p class="text-primary mt-2">Текущий пользователь: @CurrentLogin</p>
+			
 	</div>
-	<div>
+		<div class="flex-column d-flex mt-3">
 		<label>
 			Password:
 		</label>
-		<input id="Password" @bind-value="settings.Password" />
+		<InputText id="Password" @bind-Value="settings.Password" />
 	</div>
 	<FormButton type="submit">Сохранить</FormButton>
-</EditForm>
+  </EditForm>
+</div>
 
 @code {
 	AdvertisingSettings settings = new();
+	AdvertisingConfiguration configure = new();
+
+	private string? CurrentFolder { get; set; }
+	private string? CurrentLogin { get; set; }
 
 	void Submit()
-	{
-		AdvertisingConfiguration configure = new();
+	{		
 		configure.SaveAdvertisingSettings(settings);
+		GetAdvertisingData();
+	}
+
+	private void GetAdvertisingData()
+	{
+		var model = configure.GetAdvertisingSettings();
+
+		CurrentFolder = model.FolderPath =="" ? "Не задан" : model.FolderPath;
+		CurrentLogin = model.Login == "" ? "Не задан" : model.Login;
+	}
+
+	protected override void OnInitialized()
+	{
+		GetAdvertisingData();
 	}
 }

@@ -8,7 +8,6 @@ namespace RatesMoney.Models
         /// Path to folder with images.
         /// </summary>
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
-		[StringLength(1000,MinimumLength = 1, ErrorMessage ="Длинна")]
 		public string FolderPath { get; set; }
 
         /// <summary>
