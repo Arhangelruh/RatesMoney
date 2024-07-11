@@ -1,4 +1,5 @@
 ﻿@page "/WorkplaceSetting"
+@using RatesMoney.Services
 
 
 
@@ -20,19 +21,19 @@
     private string? workplaceCode{ get; set; }
     int workplace { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        GetWorkplace();
+        await GetWorkplace();
     }
 
-    private void SaveWorkplaceCode() {
-        Preferences.Default.Set(PreferenceConstants.WorkplaceCode, workplace);
-        GetWorkplace();
+    private async Task SaveWorkplaceCode() {
+        await AppConfiguration.SetWorkplaceCode(workplace);
+        await GetWorkplace();
     }
 
-    private void GetWorkplace()
+    private async Task GetWorkplace()
     {
-        int code = Preferences.Default.Get(PreferenceConstants.WorkplaceCode, -1);
+        int code = await AppConfiguration.GetWorkplaceCode();
         if (code != -1)
         {
             workplaceCode = code.ToString();

@@ -1,6 +1,7 @@
 ﻿@page "/APIsettings"
 @using System.ComponentModel.DataAnnotations
 @using RatesMoney.Models
+@using RatesMoney.Services
 
 
 <div class="text-center">
@@ -23,28 +24,26 @@
     ApiModel Api = new();
     private string? ApiPath { get; set; }
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        GetApiPath();
+        await GetApiPath();
     }
 
-    private void SaveApiPath()
+    private async Task SaveApiPath()
     {
         if (Api.ApiPath != null)
         {
-            Preferences.Default.Set(PreferenceConstants.APIService, Api.ApiPath);
-            GetApiPath();
+            await AppConfiguration.SetApiSettings(Api);
+            await GetApiPath();
         }
     }
 
-    private void GetApiPath()
+    private async Task GetApiPath()
     {
-        
-
-        string path = Preferences.Default.Get(PreferenceConstants.APIService, "");
-        if (path != "")
+        var model = await AppConfiguration.GetApiSettings();
+        if (model.ApiPath != "")
         {
-            ApiPath = path;            
+            ApiPath = model.ApiPath;            
         }
         else
         {

@@ -37,27 +37,26 @@
 
 @code {
 	AdvertisingSettings settings = new();
-	AdvertisingConfiguration configure = new();
 
 	private string? CurrentFolder { get; set; }
 	private string? CurrentLogin { get; set; }
 
-	void Submit()
-	{		
-		configure.SaveAdvertisingSettings(settings);
-		GetAdvertisingData();
+	private async Task Submit()
+	{
+		await AppConfiguration.SaveAdvertisingSettings(settings);
+		await GetAdvertisingData();
 	}
 
-	private void GetAdvertisingData()
+	private async Task GetAdvertisingData()
 	{
-		var model = configure.GetAdvertisingSettings();
+		var model = await AppConfiguration.GetAdvertisingSettings();
 
 		CurrentFolder = model.FolderPath =="" ? "Не задан" : model.FolderPath;
 		CurrentLogin = model.Login == "" ? "Не задан" : model.Login;
 	}
 
-	protected override void OnInitialized()
+	protected async override Task OnInitializedAsync()
 	{
-		GetAdvertisingData();
+		await GetAdvertisingData();
 	}
 }
