@@ -34,7 +34,7 @@
     private async Task GetWorkplace()
     {
         int code = await AppConfiguration.GetWorkplaceCode();
-        if (code != -1)
+        if (code != PreferenceConstants.NullWorkplaceCode)
         {
             workplaceCode = code.ToString();
             workplace = code;

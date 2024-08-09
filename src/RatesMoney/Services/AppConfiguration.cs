@@ -57,7 +57,7 @@ namespace RatesMoney.Services
         public static async Task<int> GetWorkplaceCode()
 		{			
 			return await Task.Run(() =>{
-			   int code = Preferences.Default.Get(PreferenceConstants.WorkplaceCode, -1);
+			   int code = Preferences.Default.Get(PreferenceConstants.WorkplaceCode, PreferenceConstants.NullWorkplaceCode);
                 return code;
             }
 		  );	

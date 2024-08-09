@@ -1,5 +1,117 @@
 ﻿@page "/"
+@using RatesMoney.Services
+@using RatesMoney.Constants
+@using RatesMoney.ViewModels
+@implements IDisposable
 
-<h1>Hello, world!</h1>
+<div class="homecontainer text-center">
+	@if (ApiUrl != "" && ApiUrl != null)
+	{
+		@if (ApiWorkplace != PreferenceConstants.NullWorkplaceCode && ApiWorkplace != null)
+		{
+			if (ratesList.Count() == 0)
+			{
+				<p>Загрузка курсов....</p>
+			}
+			else
+			{
+				<div class="currencyTables container">
+					@if (ratesList.Where(r => r.RateType == RateConstant.ChangeType).Count() > 0)
+					{
+						<table class="w-75 m-auto">
+							<tr>
+								<th>Валюта</th>
+								<th> </th>
+								<th>Банк покупает</th>
+								<th>Банк продаёт</th>
+							</tr>
 
-Welcome to your new app.
+							@foreach (var rate in ratesList.Where(r => r.RateType == RateConstant.ChangeType))
+							{
+								<tr>
+									<td><Flags Title="@rate.FromCurrency.ToString()" /></td>
+									<td>@rate.Units @rate.FromCurrency</td>
+									<td>@rate.BuyRate</td>
+									<td>@rate.SellRate</td>
+								</tr>
+							}
+						</table>
+					}
+					@if (ratesList.Where(r => r.RateType == RateConstant.ConverseType).Count() > 0)
+					{
+						<table class="w-75 mt-5 m-auto">
+							<tr>
+								<th>Конверсия</th>
+								<th>Банк покупает</th>
+								<th>Банк продаёт</th>
+							</tr>
+
+							@foreach (var convertRates in ratesList.Where(r => r.RateType == RateConstant.ConverseType))
+							{
+								<tr>
+									<td><div class="mt-1">@convertRates.FromCurrency / @convertRates.ToCurrency</div></td>
+									<td>@convertRates.BuyRate</td>
+									<td>@convertRates.SellRate</td>
+								</tr>
+							}
+						</table>
+					}
+				</div>
+			}
+		}
+		else
+		{
+			<div class="text-center mt-5"><h2>Не сконфигурировано рабочее место</h2></div>
+		}
+	}
+	else
+	{
+		<div class="text-center mt-5"><h2>Идет попытка обращения к API по указанному в настройках рабочему месту.</h2></div>
+	}
+</div>
+
+@code {
+	private int? ApiWorkplace { get; set; }
+	private string? ApiUrl { get; set; }
+	private List<RateViewModel>? ratesList { get; set; }
+	private string state; 
+	Timer? timer;
+
+	protected override async Task OnInitializedAsync()
+	{
+		ApiWorkplace = await AppConfiguration.GetWorkplaceCode();
+		var apiModel = await AppConfiguration.GetApiSettings();
+		ApiUrl = apiModel.ApiPath;
+
+		if (ApiUrl != "" && ApiUrl != null)
+		{
+			if (ApiWorkplace != PreferenceConstants.NullWorkplaceCode && ApiWorkplace != null)
+			{
+				GetRates getRates = new();
+				ratesList = await getRates.GetAllRatesAsync();
+			}
+		}
+		timer = new Timer(ElapsedTimer, new System.Threading.AutoResetEvent(false), 60000, 60000);
+	}
+
+	private async void ElapsedTimer(object stateInfo)
+	{
+		if (ApiUrl != "" && ApiUrl != null)
+		{
+			if (ApiWorkplace != PreferenceConstants.NullWorkplaceCode && ApiWorkplace != null)
+			{
+				GetRates getRates = new();
+				ratesList = await getRates.GetAllRatesAsync();
+			}
+		}
+		await InvokeAsync(StateHasChanged);
+	}
+
+	public void Dispose()
+	{
+		if (timer != null)
+		{
+			timer.Dispose();
+		}
+	}
+}

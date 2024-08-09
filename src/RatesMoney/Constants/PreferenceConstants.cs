@@ -26,5 +26,22 @@
 		/// Password for advertising folder.
 		/// </summary>
 		public const string AdvertisingPassword = nameof(AdvertisingPassword);
+
+		/// <summary>
+		/// Workplace code if need return nullable value.
+		/// </summary>
+		public const int NullWorkplaceCode = -1;
+
+		/// <summary>
+		/// Login for API.
+		/// </summary>
+		public const string ApiUser = "TVPanels";
+
+		/// <summary>
+		/// Password for API.
+		/// </summary>
+		public const string ApiPassword = "61/)m>HOtckp414^";
+
+		public const string AdvertisingLocalFolder = @".\Images\TempImages";
 	}
 }

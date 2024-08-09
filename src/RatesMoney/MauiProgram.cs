@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RatesMoney.Services;
 
 namespace RatesMoney
 {
@@ -15,9 +16,11 @@ namespace RatesMoney
                 });
 
             builder.Services.AddMauiBlazorWebView();
+			//var fileCopier = new FileCopier();
+			//Task.Run(() => fileCopier.CopyFilesAsync()).Wait();
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
+			builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
 

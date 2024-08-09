@@ -1,0 +1,27 @@
+﻿<div class="mt-3">
+	@if(Title == "USD")
+	{
+		<img class="flag" src=".\Images/usd.png" />
+	}
+	@if(Title == "EUR")
+	{
+		<img class="flag" src=".\Images/eur.png" />
+	}
+	@if(Title == "RUB")
+	{
+		<img class="flag" src=".\Images/rub.png" />
+	}
+	@if(Title == "UAH")
+	{
+		<img class="flag" src=".\Images/uah.png" />
+	}
+	@if(Title == "CNY")
+	{
+		<img class="flag" src=".\Images/cny.png" />
+	}
+</div>
+
+@code {
+	[Parameter]
+	public string Title { get; set; }
+}
